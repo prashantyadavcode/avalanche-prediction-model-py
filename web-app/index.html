@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avalanche Risk Assessment Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">🏔️ Avalanche Risk Assessment Dashboard</h1>
+                <p class="app-subtitle">Advanced Machine Learning Model for Colorado Backcountry Safety</p>
+                <div class="timestamp" id="current-time"></div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Risk Visualization Section -->
+            <section class="risk-section">
+                <div class="section-header">
+                    <h2>Real-Time Risk Visualization</h2>
+                    <p>Interactive map showing current avalanche risk levels across Colorado's backcountry zones</p>
+                </div>
+                
+                <div class="map-container">
+                    <div id="risk-map" class="risk-map"></div>
+                    
+                    <div class="map-controls">
+                        <div class="risk-legend">
+                            <h3>Risk Level Legend</h3>
+                            <div class="legend-items">
+                                <div class="legend-item">
+                                    <span class="risk-indicator low-risk"></span>
+                                    <span class="risk-label">Low Risk</span>
+                                    <span class="risk-description">Generally safe conditions</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="risk-indicator moderate-risk"></span>
+                                    <span class="risk-label">Moderate Risk</span>
+                                    <span class="risk-description">Heightened avalanche conditions</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="risk-indicator considerable-risk"></span>
+                                    <span class="risk-label">Considerable Risk</span>
+                                    <span class="risk-description">Dangerous avalanche conditions</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="risk-indicator high-risk"></span>
+                                    <span class="risk-label">High Risk</span>
+                                    <span class="risk-description">Very dangerous conditions</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="risk-indicator extreme-risk"></span>
+                                    <span class="risk-label">Extreme Risk</span>
+                                    <span class="risk-description">Avoid all avalanche terrain</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="map-actions">
+                            <button id="refresh-data" class="action-btn primary">
+                                <span class="btn-icon">🔄</span>
+                                Update Risk Assessment
+                            </button>
+                            <button id="toggle-auto-refresh" class="action-btn secondary">
+                                <span class="btn-icon">⏰</span>
+                                Auto Refresh: <span id="auto-status">ON</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Model Performance Section -->
+            <section class="performance-section">
+                <div class="section-header">
+                    <h2>Model Performance Metrics</h2>
+                    <p>Advanced machine learning model trained on historical avalanche and weather data</p>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card accuracy">
+                        <div class="metric-icon">🎯</div>
+                        <div class="metric-content">
+                            <h3>Accuracy</h3>
+                            <div class="metric-value" id="accuracy-score">94.2%</div>
+                            <p>Overall prediction accuracy across all test scenarios</p>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card precision">
+                        <div class="metric-icon">🔍</div>
+                        <div class="metric-content">
+                            <h3>Precision</h3>
+                            <div class="metric-value" id="precision-score">89.7%</div>
+                            <p>True positive rate for avalanche predictions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card recall">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-content">
+                            <h3>Recall</h3>
+                            <div class="metric-value" id="recall-score">91.3%</div>
+                            <p>Ability to detect actual avalanche events</p>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card f1-score">
+                        <div class="metric-icon">⚖️</div>
+                        <div class="metric-content">
+                            <h3>F1 Score</h3>
+                            <div class="metric-value" id="f1-score">90.5%</div>
+                            <p>Harmonic mean of precision and recall</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Model Information Section -->
+            <section class="model-info-section">
+                <div class="section-header">
+                    <h2>Model Architecture & Training</h2>
+                    <p>Comprehensive details about the machine learning model and training process</p>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">🧠</div>
+                        <h3>Algorithm</h3>
+                        <p>Ensemble Gradient Boosting Classifier with optimized hyperparameters</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">📅</div>
+                        <h3>Training Period</h3>
+                        <p>2011-2016 winter seasons (6 years of comprehensive data)</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">✅</div>
+                        <h3>Validation</h3>
+                        <p>2016-2017 season for independent model evaluation</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">🎯</div>
+                        <h3>Target Events</h3>
+                        <p>Destructive size D2+ avalanches (significant impact events)</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">🌡️</div>
+                        <h3>Input Features</h3>
+                        <p>Weather, snowpack, temperature, wind, and historical patterns</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">🗺️</div>
+                        <h3>Coverage Area</h3>
+                        <p>10 Colorado backcountry zones with real-time monitoring</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Zone Details Section -->
+            <section class="zone-details-section">
+                <div class="section-header">
+                    <h2>Zone-Specific Risk Analysis</h2>
+                    <p>Detailed risk assessment for each monitored backcountry zone</p>
+                </div>
+                
+                <div class="zone-grid" id="zone-details">
+                    <!-- Zone details will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Safety Disclaimer -->
+            <section class="disclaimer-section">
+                <div class="disclaimer-content">
+                    <div class="disclaimer-icon">⚠️</div>
+                    <div class="disclaimer-text">
+                        <h3>Important Safety Notice</h3>
+                        <p><strong>This tool is for educational and research purposes only.</strong></p>
+                        <p>This information is NOT intended to be used as an operational avalanche risk forecast. 
+                        Always consult professional avalanche forecasters and local authorities before making 
+                        backcountry travel decisions.</p>
+                        <div class="disclaimer-links">
+                            <a href="http://avalanche.state.co.us" target="_blank" class="safety-link">
+                                Colorado Avalanche Information Center
+                            </a>
+                            <a href="https://www.avalanche.org" target="_blank" class="safety-link">
+                                American Avalanche Association
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2024 Avalanche Risk Assessment Dashboard | Advanced ML Model by Prashant</p>
+                <div class="footer-links">
+                    <a href="#about">About</a>
+                    <a href="#methodology">Methodology</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
