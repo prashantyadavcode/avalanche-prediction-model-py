@@ -2,30 +2,21 @@
   "version": 2,
   "builds": [
     {
-      "src": "api.py",
+      "src": "api/*.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "web-app/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api.py"
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/web-app/$1"
+      "dest": "/$1"
     }
   ],
   "env": {
     "PYTHON_VERSION": "3.9"
-  },
-  "functions": {
-    "api.py": {
-      "maxDuration": 30
-    }
   }
 }

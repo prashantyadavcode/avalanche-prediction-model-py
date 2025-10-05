@@ -4,9 +4,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Avalanche Predictor</title>
-    <meta http-equiv="refresh" content="0; url=/web-app/">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <p>Redirecting to <a href="/web-app/">AI Avalanche Predictor</a>...</p>
+    <div class="container">
+        <header>
+            <h1>AI Avalanche Predictor</h1>
+            <p>Advanced Machine Learning Models for Real-Time Avalanche Risk Assessment</p>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span>System Ready - Viewing Colorado backcountry risk levels</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Map Section -->
+            <section class="map-section">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+                
+                <div class="controls">
+                    <div class="legend">
+                        <h3>Risk Level Legend</h3>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <span class="color low"></span>
+                                <span>Low Risk</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="color moderate"></span>
+                                <span>Moderate Risk</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="color considerable"></span>
+                                <span>Considerable Risk</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="color high"></span>
+                                <span>High Risk</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="color extreme"></span>
+                                <span>Extreme Risk</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button id="refresh-data" class="btn primary">
+                            <span>🔄</span>
+                            Update Risk Assessment
+                        </button>
+                        <button id="toggle-auto-refresh" class="btn secondary">
+                            <span>⏰</span>
+                            Auto-refresh: <span id="auto-status">ON</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Model Performance Section -->
+            <section class="performance-section">
+                <h2>Model Performance Comparison</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">🎯</div>
+                        <div class="metric-content">
+                            <h3>Accuracy</h3>
+                            <div class="metric-value" id="accuracy-score">94.2%</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-content">
+                            <h3>Precision</h3>
+                            <div class="metric-value" id="precision-score">89.7%</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🔄</div>
+                        <div class="metric-content">
+                            <h3>Recall</h3>
+                            <div class="metric-value" id="recall-score">91.3%</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">⚖️</div>
+                        <div class="metric-content">
+                            <h3>F1-Score</h3>
+                            <div class="metric-value" id="f1-score">90.5%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Model Information Section -->
+            <section class="model-info-section">
+                <h2>ML Model Information</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">🤖</div>
+                        <div class="info-content">
+                            <h3>Ensemble Model</h3>
+                            <p>Combines multiple ML algorithms for maximum accuracy. Uses Gradient Boosting, Random Forest, and Neural Networks with weighted voting.</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">🧠</div>
+                        <div class="info-content">
+                            <h3>Gradient Boosting</h3>
+                            <p>Advanced ensemble method that builds predictive models by combining weak learners to create a strong predictive model.</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">🌲</div>
+                        <div class="info-content">
+                            <h3>Random Forest</h3>
+                            <p>Ensemble learning method that constructs multiple decision trees and outputs the class that is the mode of the classes.</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">🔗</div>
+                        <div class="info-content">
+                            <h3>Neural Network</h3>
+                            <p>Deep learning model that captures complex patterns in weather and snowpack data for accurate avalanche prediction.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Zone Details Section -->
+            <section class="zone-details-section">
+                <h2>Backcountry Zone Details</h2>
+                <div class="zone-grid" id="zone-details">
+                    <!-- Zone cards will be populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="disclaimer">
+                <h3>⚠️ Important Safety Disclaimer</h3>
+                <p>This information is NOT intended to be used as an avalanche risk forecast. This is an empirical study done for scientific purposes. Always consult professional avalanche forecasters and local authorities before making any decisions in avalanche terrain.</p>
+                <div class="safety-links">
+                    <a href="https://avalanche.state.co.us/" target="_blank" class="safety-link">
+                        Colorado Avalanche Information Center
+                    </a>
+                </div>
+            </div>
+            <div class="footer-info">
+                <p>&copy; 2024 AI Avalanche Predictor. Machine Learning Research Project.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>

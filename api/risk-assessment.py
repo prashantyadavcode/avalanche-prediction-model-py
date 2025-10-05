@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
 from datetime import datetime
 import json
 
-app = Flask(__name__, static_folder='.', static_url_path='')
+app = Flask(__name__)
 CORS(app)
 
 # Colorado backcountry zones data
@@ -65,78 +65,69 @@ def predict_risk_level(probability):
     else:
         return 'extreme'
 
-@app.route('/')
-def serve_index():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('.', filename)
-
-@app.route('/api/health')
-def health_check():
-    return jsonify({
-        'status': 'healthy',
-        'timestamp': datetime.now().isoformat(),
-        'version': '1.0.0'
-    })
-
-@app.route('/api/risk-assessment')
-def get_risk_assessment():
-    try:
-        risk_data = []
-        
-        for zone_id, zone_info in ZONES_DATA.items():
-            features = generate_sample_features()
+def handler(request):
+    """Vercel serverless function handler"""
+    if request.path == '/api/health':
+        return jsonify({
+            'status': 'healthy',
+            'timestamp': datetime.now().isoformat(),
+            'version': '1.0.0'
+        })
+    
+    elif request.path == '/api/risk-assessment':
+        try:
+            risk_data = []
             
-            # Generate realistic probabilities
-            slab_prob = np.random.uniform(0.1, 0.9)
-            wet_prob = np.random.uniform(0.05, 0.7)
-            combined_prob = max(slab_prob, wet_prob)
+            for zone_id, zone_info in ZONES_DATA.items():
+                features = generate_sample_features()
+                
+                # Generate realistic probabilities
+                slab_prob = np.random.uniform(0.1, 0.9)
+                wet_prob = np.random.uniform(0.05, 0.7)
+                combined_prob = max(slab_prob, wet_prob)
+                
+                risk_level = predict_risk_level(combined_prob)
+                
+                risk_data.append({
+                    'zone_id': zone_id,
+                    'name': zone_info['name'],
+                    'lat': zone_info['lat'],
+                    'lng': zone_info['lng'],
+                    'risk_level': risk_level,
+                    'risk_score': combined_prob,
+                    'slab_probability': slab_prob,
+                    'wet_probability': wet_prob,
+                    'timestamp': datetime.now().isoformat()
+                })
             
-            risk_level = predict_risk_level(combined_prob)
-            
-            risk_data.append({
-                'zone_id': zone_id,
-                'name': zone_info['name'],
-                'lat': zone_info['lat'],
-                'lng': zone_info['lng'],
-                'risk_level': risk_level,
-                'risk_score': combined_prob,
-                'slab_probability': slab_prob,
-                'wet_probability': wet_prob,
-                'timestamp': datetime.now().isoformat()
+            return jsonify({
+                'status': 'success',
+                'data': risk_data,
+                'model_info': {
+                    'accuracy': 0.942,
+                    'precision': 0.897,
+                    'recall': 0.913,
+                    'f1_score': 0.905,
+                    'training_zone': 'Aspen, CO',
+                    'training_period': '2011-2016 winters',
+                    'validation_period': '2016-2017',
+                    'last_model_update': '2024-01-15T10:00:00Z'
+                }
             })
-        
+        except Exception as e:
+            print(f"Error in get_risk_assessment: {e}")
+            return jsonify({"status": "error", "message": str(e)}), 500
+    
+    elif request.path == '/api/model-metrics':
         return jsonify({
             'status': 'success',
-            'data': risk_data,
-            'model_info': {
+            'metrics': {
                 'accuracy': 0.942,
                 'precision': 0.897,
                 'recall': 0.913,
-                'f1_score': 0.905,
-                'training_zone': 'Aspen, CO',
-                'training_period': '2011-2016 winters',
-                'validation_period': '2016-2017',
-                'last_model_update': '2024-01-15T10:00:00Z'
+                'f1_score': 0.905
             }
         })
-    except Exception as e:
-        print(f"Error in get_risk_assessment: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-@app.route('/api/model-metrics')
-def get_model_metrics():
-    return jsonify({
-        'status': 'success',
-        'metrics': {
-            'accuracy': 0.942,
-            'precision': 0.897,
-            'recall': 0.913,
-            'f1_score': 0.905
-        }
-    })
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    
+    else:
+        return jsonify({"status": "error", "message": "Not found"}), 404
