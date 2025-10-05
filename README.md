@@ -2,11 +2,11 @@
 
 Advanced Machine Learning Models for Real-Time Avalanche Risk Assessment
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/prashantyadavcode/avalanche-prediction-model-py)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/prashantyadavcode/avalanche-prediction-model-py)
 
 ## 🏔️ Live Demo
 
-**🌐 [avalanche-prediction-model-py.vercel.app](https://avalanche-prediction-model-py.vercel.app)**
+**🌐 Deploy to Render for live demo**
 
 ## 📊 Model Performance
 
@@ -99,13 +99,19 @@ python simple_server.py
 open http://localhost:3001
 ```
 
-### Vercel Deployment
+### Render Deployment
 
-1. **Fork this repository**
-2. **Connect to Vercel**:
-   - Go to [vercel.com](https://vercel.com)
-   - Import your forked repository
-   - Deploy automatically
+1. **One-Click Deploy**:
+   - Click the "Deploy to Render" button above
+   - Or manually connect at [render.com](https://render.com)
+
+2. **Manual Deploy**:
+   - Go to [render.com](https://render.com)
+   - Sign in with GitHub
+   - Click "New +" → "Web Service"
+   - Connect repository: `prashantyadavcode/avalanche-prediction-model-py`
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `gunicorn app:app`
 
 3. **Environment Variables** (Optional):
    - No environment variables required for basic functionality
@@ -114,12 +120,12 @@ open http://localhost:3001
 
 ```
 avalanche-prediction-model-py/
-├── web-app/                       # Web application
-│   ├── index.html                 # Main HTML page
-│   ├── styles.css                 # Styling
-│   ├── app.js                     # Frontend JavaScript
-│   ├── api.py                     # Flask API backend
-│   └── simple_server.py           # Development server
+├── app.py                         # Main Flask application
+├── Procfile                       # Render process configuration
+├── requirements.txt               # Python dependencies
+├── index.html                     # Main application page
+├── styles.css                     # Styling
+├── app.js                         # Frontend JavaScript
 ├── src/                           # Source code
 │   ├── best-ests/                 # Trained ML models
 │   ├── feature_engineering.py     # Feature creation
@@ -128,8 +134,7 @@ avalanche-prediction-model-py/
 ├── data/                          # Data storage
 │   ├── data-clean/                # Processed datasets
 │   └── data-engineered.db         # SQLite database
-├── vercel.json                    # Vercel configuration
-├── requirements.txt               # Python dependencies
+├── RENDER_DEPLOYMENT.md           # Render deployment guide
 └── README.md                      # This file
 ```
 
@@ -150,7 +155,7 @@ avalanche-prediction-model-py/
 ### Technology Stack
 * **Frontend**: HTML5, CSS3, JavaScript (ES6+), Leaflet.js
 * **Backend**: Python Flask, scikit-learn
-* **Deployment**: Vercel, Serverless Functions
+* **Deployment**: Render, Gunicorn
 * **Data**: SQLite, Pandas, NumPy
 
 ## 🔬 Methodology
