@@ -1,0 +1,31 @@
+{
+  "name": "ai-avalanche-predictor",
+  "version": "1.0.0",
+  "description": "Advanced Machine Learning Models for Real-Time Avalanche Risk Assessment",
+  "main": "web-app/api.py",
+  "scripts": {
+    "start": "cd web-app && python api.py",
+    "dev": "cd web-app && python simple_server.py",
+    "build": "echo 'No build step required'",
+    "vercel-build": "echo 'Vercel build completed'"
+  },
+  "keywords": [
+    "avalanche",
+    "prediction",
+    "machine-learning",
+    "ai",
+    "risk-assessment",
+    "colorado",
+    "backcountry"
+  ],
+  "author": "Prashant Yadav",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prashantyadavcode/avalanche-prediction-model-py.git"
+  },
+  "homepage": "https://avalanche-prediction-model-py.vercel.app",
+  "engines": {
+    "python": "3.9"
+  }
+}
